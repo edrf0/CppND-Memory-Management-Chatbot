@@ -44,6 +44,77 @@ ChatBot::~ChatBot()
 
 //// STUDENT CODE
 ////
+ChatBot::ChatBot(const ChatBot &cb) {
+    std::cout << "ChatBot Constructor" << std::endl;
+
+    // Deep copy
+    _image = new wxBitmap(*cb._image);
+
+    // Shallow copy
+    _chatLogic = cb._chatLogic;
+    _rootNode = cb._rootNode;
+    _currentNode = cb._currentNode;
+}
+
+ChatBot &ChatBot::operator=(const ChatBot &cb) {
+    std::cout << "ChatBot Copy Constructor" << std::endl;
+
+    // For method chaining
+    if (this == &cb) return *this;
+
+    // Prevents a memory leak when deep copying
+    if (_image != nullptr) delete _image;
+
+    // Deep copy
+    _image = new wxBitmap(*cb._image);
+
+    // Shallow copy
+    _chatLogic = cb._chatLogic;
+    _rootNode = cb._rootNode;
+    _currentNode = cb._currentNode;
+
+    return *this;
+}
+
+ChatBot::ChatBot(ChatBot &&cb) {
+    std::cout << "ChatBot Move Constructor" << std::endl;
+
+    // Get resources
+    _image = cb._image;
+    _chatLogic = cb._chatLogic;
+    _rootNode = cb._rootNode;
+    _currentNode = cb._currentNode;
+
+    // Invalidate at the source
+    cb._image = nullptr;
+    cb._chatLogic = nullptr;
+    cb._rootNode = nullptr;
+    cb._currentNode = nullptr;
+}
+
+ChatBot &ChatBot::operator=(ChatBot &&cb) {
+    std::cout << "ChatBot Move Assignment Constructor" << std::endl;
+
+    // For method chaining
+    if (this == &cb) return *this;
+
+    // Prevents a memory leak when deep copying
+    if (_image != nullptr) delete _image;
+
+    // Get resources
+    _image = cb._image;
+    _chatLogic = cb._chatLogic;
+    _rootNode = cb._rootNode;
+    _currentNode = cb._currentNode;
+
+    // Invalidate at the source
+    cb._image = nullptr;
+    cb._chatLogic = nullptr;
+    cb._rootNode = nullptr;
+    cb._currentNode = nullptr;
+
+    return *this;
+}
 
 ////
 //// EOF STUDENT CODE
