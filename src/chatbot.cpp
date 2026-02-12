@@ -93,7 +93,7 @@ ChatBot::ChatBot(ChatBot &&cb) {
 }
 
 ChatBot &ChatBot::operator=(ChatBot &&cb) {
-    std::cout << "ChatBot Move Assignment Constructor" << std::endl;
+    std::cout << "ChatBot Move Assignment Operator" << std::endl;
 
     // For method chaining
     if (this == &cb) return *this;
