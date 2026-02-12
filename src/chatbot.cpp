@@ -107,6 +107,10 @@ ChatBot &ChatBot::operator=(ChatBot &&cb) {
     _rootNode = cb._rootNode;
     _currentNode = cb._currentNode;
 
+    if (_chatLogic != nullptr) {
+        _chatLogic->SetChatbotHandle(this);
+    }
+
     // Invalidate at the source
     cb._image = nullptr;
     cb._chatLogic = nullptr;

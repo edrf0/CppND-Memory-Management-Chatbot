@@ -94,11 +94,13 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
             }
 
             // process tokens for current line
-            auto type = std::find_if(tokens.begin(), tokens.end(), [](const std::pair<std::string, std::string> &pair) { return pair.first == "TYPE"; });
+            auto type = std::find_if(tokens.begin(), tokens.end(),
+                [](const std::pair<std::string, std::string> &pair) { return pair.first == "TYPE"; });
             if (type != tokens.end())
             {
                 // check for id
-                auto idToken = std::find_if(tokens.begin(), tokens.end(), [](const std::pair<std::string, std::string> &pair) { return pair.first == "ID"; });
+                auto idToken = std::find_if(tokens.begin(), tokens.end(),
+                    [](const std::pair<std::string, std::string> &pair) { return pair.first == "ID"; });
                 if (idToken != tokens.end())
                 {
                     // extract id from token
@@ -204,8 +206,8 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
     cb.SetChatLogicHandle(this);
     cb.SetRootNode(rootNode);
 
-    _chatBot = &cb;
-    rootNode->MoveChatbotHere(&cb);
+    //_chatBot = &cb;
+    rootNode->MoveChatbotHere(cb);
     
     ////
     //// EOF STUDENT CODE
