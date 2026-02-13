@@ -10,7 +10,7 @@ class ChatBot;
 class GraphEdge;
 class GraphNode;
 
-class ChatLogic : public std::enable_shared_from_this<ChatLogic>
+class ChatLogic
 {
 private:
     //// STUDENT CODE

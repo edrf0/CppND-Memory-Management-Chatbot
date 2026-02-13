@@ -15,7 +15,7 @@ ChatBot::ChatBot()
 
     // invalidate data handles
     _image = nullptr;
-    //_chatLogic = nullptr;
+    _chatLogic = nullptr;
     _rootNode = nullptr;
 }
 
@@ -25,7 +25,7 @@ ChatBot::ChatBot(std::string filename)
     std::cout << "ChatBot Constructor" << std::endl;
     
     // invalidate data handles
-    //_chatLogic = nullptr;
+    _chatLogic = nullptr;
     _rootNode = nullptr;
 
     // load image into heap memory
@@ -49,13 +49,17 @@ ChatBot::~ChatBot()
 ChatBot::ChatBot(const ChatBot &cb) {
     std::cout << "ChatBot Copy Constructor" << std::endl;
 
-    // Deep copy
-    _image = new wxBitmap(*cb._image);
-
     // Shallow copy
     _chatLogic = cb._chatLogic;
     _rootNode = cb._rootNode;
     _currentNode = cb._currentNode;
+
+    // Deep copy
+    _image = new wxBitmap(*cb._image);
+
+    if (_chatLogic != nullptr) {
+        _chatLogic->SetChatbotHandle(this);
+    }
 }
 
 ChatBot &ChatBot::operator=(const ChatBot &cb) {
@@ -67,13 +71,17 @@ ChatBot &ChatBot::operator=(const ChatBot &cb) {
     // Prevents a memory leak when deep copying
     if (_image != nullptr) delete _image;
 
-    // Deep copy
-    _image = new wxBitmap(*cb._image);
-
     // Shallow copy
     _chatLogic = cb._chatLogic;
     _rootNode = cb._rootNode;
     _currentNode = cb._currentNode;
+
+    // Deep copy
+    _image = new wxBitmap(*cb._image);
+
+    if (_chatLogic != nullptr) {
+        _chatLogic->SetChatbotHandle(this);
+    }
 
     return *this;
 }
@@ -105,7 +113,7 @@ ChatBot &ChatBot::operator=(ChatBot &&cb) {
 
     // Get resources
     _image = cb._image;
-    _chatLogic = std::move(cb._chatLogic);
+    _chatLogic = cb._chatLogic;
     _rootNode = cb._rootNode;
     _currentNode = cb._currentNode;
 
@@ -174,7 +182,10 @@ void ChatBot::SetCurrentNode(GraphNode *node)
     // if (auto logic = _chatLogic) {
     //     logic->SendMessageToUser(answer);
     // }
-    _chatLogic->SendMessageToUser(answer);
+    if (_chatLogic != nullptr) {
+        _chatLogic->SendMessageToUser(answer);
+    }
+    //_chatLogic->SendMessageToUser(answer);
 }
 
 int ChatBot::ComputeLevenshteinDistance(std::string s1, std::string s2)
