@@ -11,9 +11,11 @@
 // constructor WITHOUT memory allocation
 ChatBot::ChatBot()
 {
+    //std::cout << "ChatBot Default Constructor" << std::endl;
+
     // invalidate data handles
     _image = nullptr;
-    _chatLogic = nullptr;
+    //_chatLogic = nullptr;
     _rootNode = nullptr;
 }
 
@@ -23,7 +25,7 @@ ChatBot::ChatBot(std::string filename)
     std::cout << "ChatBot Constructor" << std::endl;
     
     // invalidate data handles
-    _chatLogic = nullptr;
+    //_chatLogic = nullptr;
     _rootNode = nullptr;
 
     // load image into heap memory
@@ -35,17 +37,17 @@ ChatBot::~ChatBot()
     std::cout << "ChatBot Destructor" << std::endl;
 
     // deallocate heap memory
-    if(_image != NULL) // Attention: wxWidgets used NULL and not nullptr
+    if(_image != nullptr)
     {
         delete _image;
-        _image = NULL;
+        _image = nullptr;
     }
 }
 
 //// STUDENT CODE
 ////
 ChatBot::ChatBot(const ChatBot &cb) {
-    std::cout << "ChatBot Constructor" << std::endl;
+    std::cout << "ChatBot Copy Constructor" << std::endl;
 
     // Deep copy
     _image = new wxBitmap(*cb._image);
@@ -57,7 +59,7 @@ ChatBot::ChatBot(const ChatBot &cb) {
 }
 
 ChatBot &ChatBot::operator=(const ChatBot &cb) {
-    std::cout << "ChatBot Copy Constructor" << std::endl;
+    std::cout << "ChatBot Copy Assignment Operator" << std::endl;
 
     // For method chaining
     if (this == &cb) return *this;
@@ -103,7 +105,7 @@ ChatBot &ChatBot::operator=(ChatBot &&cb) {
 
     // Get resources
     _image = cb._image;
-    _chatLogic = cb._chatLogic;
+    _chatLogic = std::move(cb._chatLogic);
     _rootNode = cb._rootNode;
     _currentNode = cb._currentNode;
 
@@ -169,6 +171,9 @@ void ChatBot::SetCurrentNode(GraphNode *node)
     std::string answer = answers.at(dis(generator));
 
     // send selected node answer to user
+    // if (auto logic = _chatLogic) {
+    //     logic->SendMessageToUser(answer);
+    // }
     _chatLogic->SendMessageToUser(answer);
 }
 
